@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全國登山步道票選活動 - 後台管理系統 V5</title>
+    <title>全國登山步道票選活動 - 後台管理系統 V6</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -140,7 +140,7 @@
     <div id="app-view">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h3>Trail Admin <span class="version-tag">V5</span></h3>
+                <h3>Trail Admin <span class="version-tag">V6</span></h3>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item active" onclick="switchTab('dashboard', this)">
@@ -155,7 +155,7 @@
                 <li class="nav-item" onclick="switchTab('web-cms', this)">
                     <i class="fas fa-edit"></i> <span>4. 網站內容管理</span>
                 </li>
-                <li class="nav-item" onclick="switchTab('placeholder', this)">
+                <li class="nav-item" onclick="switchTab('permissions', this)">
                     <i class="fas fa-user-shield"></i> <span>5. 系統權限設定</span>
                 </li>
                 <li class="nav-item" onclick="switchTab('placeholder', this)">
@@ -461,6 +461,138 @@
                 </div>
             </div>
 
+
+            <div id="view-permissions" class="view-section">
+                <div class="page-title">
+                    <span>系統權限與資安設定</span>
+                    <button class="btn-outline" onclick="exportData('系統稽核日誌')"><i class="fas fa-shield-alt"></i> 匯出稽核日誌 (PDF)</button>
+                </div>
+                
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fas fa-user-cog"></i> 內部管理員帳號維護</div>
+                        <button class="btn-outline"><i class="fas fa-user-plus"></i> 新增管理員</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr><th>帳號 (ID)</th><th>姓名</th><th>所屬單位</th><th>角色層級</th><th>帳號狀態</th><th>最後登入時間</th><th>操作</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>admin_sport</td><td>陳*明</td><td>全民運動署</td>
+                                    <td><span class="badge" style="background:#5f8f83; color:white;">超級管理員</span></td>
+                                    <td><span class="badge normal">啟用中</span></td>
+                                    <td>2026-08-12 09:12:45</td>
+                                    <td><button class="btn-outline">編輯</button></td>
+                                </tr>
+                                <tr>
+                                    <td>editor_vendor</td><td>林*華</td><td>委辦行銷公司</td>
+                                    <td><span class="badge" style="background:#83b86b; color:white;">一般編輯員</span></td>
+                                    <td><span class="badge normal">啟用中</span></td>
+                                    <td>2026-08-11 14:30:22</td>
+                                    <td><button class="btn-outline">編輯</button></td>
+                                </tr>
+                                <tr>
+                                    <td>audit_gov</td><td>王*專員</td><td>政風處/查核員</td>
+                                    <td><span class="badge" style="background:#9ec7ad; color:white;">唯讀稽核員</span></td>
+                                    <td><span class="badge banned">已停用</span></td>
+                                    <td>2026-07-01 10:00:00</td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-outline">解鎖</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fas fa-sliders-h"></i> 模組權限分配矩陣 (Role Permissions)</div>
+                        <button class="btn-outline" style="background: var(--primary); color: white;"><i class="fas fa-save"></i> 儲存權限設定</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">角色名稱</th>
+                                    <th style="text-align: center;">1.儀表板</th>
+                                    <th style="text-align: center;">2.會員數據</th>
+                                    <th style="text-align: center;">3.步道CMS</th>
+                                    <th style="text-align: center;">4.網站CMS</th>
+                                    <th style="text-align: center;">5.權限設定</th>
+                                    <th style="text-align: center;">6.票選防弊</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left; font-weight: bold; color: var(--primary);">超級管理員</td>
+                                    <td><input type="checkbox" checked disabled></td>
+                                    <td><input type="checkbox" checked disabled></td>
+                                    <td><input type="checkbox" checked disabled></td>
+                                    <td><input type="checkbox" checked disabled></td>
+                                    <td><input type="checkbox" checked disabled></td>
+                                    <td><input type="checkbox" checked disabled></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left; font-weight: bold;">一般編輯員</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"> (禁)</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"> (禁)</td>
+                                    <td><input type="checkbox"> (禁)</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left; font-weight: bold;">唯讀稽核員</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 10px; font-size: 0.85rem; color: var(--text-light);">* 註：超級管理員具備系統最高權限，不可取消勾選。唯讀稽核員僅具備「檢視」與「匯出」權限，無法修改任何資料。</div>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fas fa-list-alt"></i> 系統操作稽核日誌 (Audit Logs)</div>
+                        <div class="controls-group">
+                            <input type="date" class="search-bar" style="width: auto; padding: 4px 8px;">
+                            <select><option>全部動作</option><option>登入系統</option><option>資料匯出</option><option>資料修改</option></select>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead style="background-color: #fcf4f4;">
+                                <tr><th>時間</th><th>操作者 (ID)</th><th>動作類型</th><th>目標對象 / 備註</th><th>來源 IP</th><th>狀態</th></tr>
+                            </thead>
+                            <tbody style="font-size: 0.9rem;">
+                                <tr>
+                                    <td>2026-08-12 09:15:33</td><td>admin_sport</td><td><span class="badge" style="background:#e0e0e0; color:#333;">資料匯出</span></td>
+                                    <td>匯出【會員總表】(共 62,408 筆)</td><td>117.56.xxx.xxx</td><td><span style="color:#06C755;"><i class="fas fa-check-circle"></i> 成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2026-08-12 09:12:45</td><td>admin_sport</td><td><span class="badge" style="background:#e0e0e0; color:#333;">登入系統</span></td>
+                                    <td>管理員安全登入驗證</td><td>117.56.xxx.xxx</td><td><span style="color:#06C755;"><i class="fas fa-check-circle"></i> 成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2026-08-11 16:45:12</td><td>editor_vendor</td><td><span class="badge" style="background:#f4a261; color:white;">資料修改</span></td>
+                                    <td>步道 CMS：下架步道 [ID: 3]</td><td>211.23.xxx.xxx</td><td><span style="color:#06C755;"><i class="fas fa-check-circle"></i> 成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2026-08-11 14:35:00</td><td>editor_vendor</td><td><span class="badge" style="background:#e74c3c; color:white;">權限阻擋</span></td>
+                                    <td>嘗試存取【會員與數據管理】</td><td>211.23.xxx.xxx</td><td><span style="color:#e74c3c;"><i class="fas fa-times-circle"></i> 拒絕</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top: 15px; text-align: right; color: var(--text-light); font-size: 0.85rem;">日誌保留期限：180 天 | 目前顯示：最近 50 筆</div>
+                </div>
+            </div>
             
             <div id="view-placeholder" class="view-section">
                 <div class="page-title">系統建置中</div>
