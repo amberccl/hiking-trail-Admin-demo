@@ -152,7 +152,7 @@
                 <li class="nav-item" onclick="switchTab('trail-cms', this)">
                     <i class="fas fa-mountain"></i> <span>3. 步道資料庫管理</span>
                 </li>
-                <li class="nav-item" onclick="switchTab('placeholder', this)">
+                <li class="nav-item" onclick="switchTab('web-cms', this)">
                     <i class="fas fa-edit"></i> <span>4. 網站內容管理</span>
                 </li>
                 <li class="nav-item" onclick="switchTab('placeholder', this)">
@@ -359,6 +359,109 @@
                 </div>
             </div>
 
+<div id="view-web-cms" class="view-section">
+                <div class="page-title">
+                    <span>網站內容管理 (Web CMS)</span>
+                </div>
+                
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fas fa-images"></i> 首頁輪播圖管理 (Banner)</div>
+                        <button class="btn-outline"><i class="fas fa-plus"></i> 新增輪播圖</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr><th>預覽圖</th><th>標題/替代文字 (Alt)</th><th>跳轉連結 (URL)</th><th>排序</th><th>狀態</th><th>操作</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div style="width: 120px; height: 40px; background: #9ec7ad; border-radius: 4px; display: flex; align-items:center; justify-content:center; color:white; font-size:0.8rem;">Banner 1</div></td>
+                                    <td>115年步道票選開跑</td>
+                                    <td>#</td>
+                                    <td>1</td>
+                                    <td><span class="badge normal">上架中</span></td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-danger">下架</button></td>
+                                </tr>
+                                <tr>
+                                    <td><div style="width: 120px; height: 40px; background: #69a99f; border-radius: 4px; display: flex; align-items:center; justify-content:center; color:white; font-size:0.8rem;">Banner 2</div></td>
+                                    <td>精選20條絕美步道</td>
+                                    <td>#explore</td>
+                                    <td>2</td>
+                                    <td><span class="badge normal">上架中</span></td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-danger">下架</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fas fa-file-alt"></i> 首頁簡介與公告維護</div>
+                        <button class="btn-outline" style="background: var(--primary); color: white;" onclick="alert('最新內容已儲存並同步發布至前台！')"><i class="fas fa-save"></i> 儲存並發布</button>
+                    </div>
+                    <div style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <div style="background: #f9f9f9; padding: 10px; border-bottom: 1px solid var(--border); display: flex; gap: 15px; color: var(--text-light); flex-wrap: wrap;">
+                            <div style="display:flex; gap:8px;">
+                                <select style="padding: 2px 4px; border: 1px solid #ccc; border-radius:3px;"><option>標題 1</option><option>標題 2</option><option selected>內文</option></select>
+                                <select style="padding: 2px 4px; border: 1px solid #ccc; border-radius:3px;"><option>14px</option><option selected>16px</option><option>18px</option></select>
+                            </div>
+                            <div style="display:flex; gap:12px; align-items:center; cursor:pointer;">
+                                <i class="fas fa-bold" title="粗體" style="color:var(--primary);"></i>
+                                <i class="fas fa-italic" title="斜體"></i>
+                                <i class="fas fa-underline" title="底線"></i>
+                                <div style="width:1px; height:15px; background:#ccc;"></div>
+                                <i class="fas fa-align-left" title="靠左" style="color:var(--primary);"></i>
+                                <i class="fas fa-align-center" title="置中"></i>
+                                <i class="fas fa-list-ul" title="項目符號"></i>
+                                <div style="width:1px; height:15px; background:#ccc;"></div>
+                                <i class="fas fa-link" title="插入連結"></i>
+                                <i class="fas fa-image" title="插入圖片"></i>
+                                <i class="fas fa-palette" title="文字顏色"></i>
+                            </div>
+                        </div>
+                        <div contenteditable="true" style="padding: 20px; min-height: 150px; outline: none; line-height: 1.6; color: #333; background: #fff;">
+                            <h3 style="color: #5f8f83; margin-bottom:10px;">活動簡介與時程</h3>
+                            <p>透過建立公開、透明之票選機制，遴選具代表性之步道品牌。</p>
+                            <p style="color: #e74c3c; font-weight: bold;">請先於右上方登入後，即可進行投票。</p>
+                            <br>
+                            <p><strong>第一階段：</strong>115年8月1日 ~ 115年8月31日 (民眾票選)</p>
+                            <p><strong>第二階段：</strong>115年9月中旬 (專家評選與結果公告)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fab fa-youtube"></i> 影音多媒體管理 (YouTube)</div>
+                        <button class="btn-outline"><i class="fas fa-plus"></i> 新增影片連結</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr><th>影片標題</th><th>YouTube 網址</th><th>前台狀態</th><th>操作</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>115年全國登山步道票選 宣傳影片(90秒)</td>
+                                    <td><a href="#" style="color:var(--primary);">https://youtu.be/example1</a></td>
+                                    <td><span class="badge normal">上架中</span></td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-danger">下架</button></td>
+                                </tr>
+                                <tr>
+                                    <td>步道安全宣導與投票教學</td>
+                                    <td><a href="#" style="color:var(--primary);">https://youtu.be/example2</a></td>
+                                    <td><span class="badge banned">已下架</span></td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-outline">上架</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            
             <div id="view-placeholder" class="view-section">
                 <div class="page-title">系統建置中</div>
                 <div class="chart-panel" style="text-align: center; padding: 100px 20px; color: var(--text-light);">
