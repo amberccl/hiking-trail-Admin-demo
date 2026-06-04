@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全國登山步道票選活動 - 後台管理系統 V5</title>
+    <title>全國登山步道票選活動 - 後台管理系統 V6</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -20,7 +20,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans TC', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); height: 100vh; overflow: hidden; }
         
-        /* ===== 登入介面樣式 ===== */
+        /* 登入介面 */
         #login-view {
             height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center;
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
@@ -35,7 +35,7 @@
         .btn-login { width: 100%; padding: 12px; background-color: var(--primary); color: var(--white); border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 500; transition: 0.3s; }
         .btn-login:hover { background-color: var(--dark); }
         
-        /* 後台主框架排版 */
+        /* 主框架 */
         #app-view { display: none; width: 100%; height: 100%; flex-direction: row; position: relative; }
         .sidebar { width: 260px; background-color: var(--white); box-shadow: 2px 0 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; z-index: 1001; flex-shrink: 0;}
         .sidebar-header { padding: 24px 20px; text-align: center; border-bottom: 1px solid var(--border); }
@@ -47,25 +47,22 @@
         .nav-item:hover, .nav-item.active { background-color: var(--accent); color: var(--white); }
         .nav-item i { width: 20px; text-align: center; }
 
-        /* 主要內容區 */
         .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; width: 100%; }
         .topbar { height: 70px; background-color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; position: sticky; top: 0; z-index: 99; flex-shrink: 0;}
         .user-profile { display: flex; align-items: center; gap: 15px; }
         .logout-btn { background: none; border: 1px solid var(--danger); color: var(--danger); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;}
         .logout-btn:hover { background: var(--danger); color: var(--white); }
 
-        /* 頁面區塊切換 */
         .view-section { display: none; padding: 30px; max-width: 1500px; margin: 0 auto; width: 100%; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .page-title { margin-bottom: 24px; font-size: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
         
-        /* 共用圖表卡片與按鈕 */
         .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-outline:hover { background: var(--primary); color: var(--white); }
         .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; transition: 0.2s;}
         .btn-danger:hover { background: var(--danger); color: var(--white); }
-        select { padding: 6px 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; color: var(--text-main); }
+        select, input.search-bar { padding: 6px 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; color: var(--text-main); }
         
         .btn-group button { padding: 6px 12px; border: 1px solid var(--primary); background: var(--white); color: var(--primary); cursor: pointer; transition: all 0.2s; font-size: 0.85rem;}
         .btn-group button:first-child { border-radius: 4px 0 0 4px; }
@@ -89,9 +86,7 @@
         .chart-container { position: relative; height: 350px; width: 100%; }
         #trend-section { display: none; animation: fadeIn 0.4s; }
 
-        /* 資料表 */
         .table-controls { display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 15px; gap: 10px;}
-        .search-bar { padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; outline: none; }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
         th { background-color: #fafafa; color: var(--text-light); font-weight: 500; }
@@ -102,19 +97,14 @@
         .badge.normal { background-color: rgba(131, 184, 107, 0.2); color: var(--secondary); }
         .badge.banned { background-color: rgba(231, 76, 60, 0.2); color: var(--danger); }
 
-        /* ========================================== */
-        /* 手機與平板 RWD 響應式設定 */
-        /* ========================================== */
+        /* RWD 響應式與遮罩 */
         #sidebar-overlay { 
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
             background: rgba(0,0,0,0.5); z-index: 1000; opacity: 0; transition: opacity 0.3s ease; 
         }
         #sidebar-overlay.active { display: block; opacity: 1; }
 
-        @media (max-width: 1200px) { 
-            .chart-grid { grid-template-columns: 1fr; } 
-        }
-        
+        @media (max-width: 1200px) { .chart-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             .sidebar { position: fixed; left: -260px; height: 100%; transition: left 0.3s ease; }
             .sidebar.active { left: 0; }
@@ -128,7 +118,7 @@
             .table-controls select { flex: 1; }
         }
 
-        /* 前台擬真彈窗樣式 */
+        /* 預覽彈窗 (無刪減版) */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); padding-top: 50px; }
         .modal-content { background-color: #fefefe; margin: 5% auto; padding: 25px; border-radius: var(--radius); width: 90%; max-width: 800px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: slideDown 0.3s;}
         @keyframes slideDown { from {transform: translateY(-30px); opacity:0;} to {transform: translateY(0); opacity:1;} }
@@ -150,45 +140,26 @@
     <div id="login-view">
         <div class="login-card">
             <h2>步道票選管理後台</h2>
-            <div class="form-group">
-                <label>管理員帳號</label>
-                <input type="text" id="username" placeholder="請輸入帳號 (隨意輸入即可測試)">
-            </div>
-            <div class="form-group">
-                <label>密碼</label>
-                <input type="password" id="password" placeholder="請輸入密碼">
-            </div>
+            <div class="form-group"><label>管理員帳號</label><input type="text" id="username" placeholder="請輸入帳號 (隨意輸入)"></div>
+            <div class="form-group"><label>密碼</label><input type="password" id="password" placeholder="請輸入密碼"></div>
             <button class="btn-login" onclick="login()">安全登入</button>
         </div>
     </div>
 
     <div id="app-view">
-        
         <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h3>Trail Admin <span class="version-tag">V5</span></h3>
+                <h3>Trail Admin <span class="version-tag">V6</span></h3>
             </div>
             <ul class="nav-menu">
-                <li class="nav-item active" onclick="switchTab('dashboard', this)">
-                    <i class="fas fa-chart-pie"></i> <span>1. 即時統計儀表板</span>
-                </li>
-                <li class="nav-item" onclick="switchTab('members', this)">
-                    <i class="fas fa-users"></i> <span>2. 會員與數據管理</span>
-                </li>
-                <li class="nav-item" onclick="switchTab('trail-cms', this)">
-                    <i class="fas fa-mountain"></i> <span>3. 步道資料庫管理</span>
-                </li>
-                <li class="nav-item" onclick="switchTab('web-cms', this)">
-                    <i class="fas fa-edit"></i> <span>4. 網站內容管理</span>
-                </li>
-                <li class="nav-item" onclick="switchTab('permissions', this)">
-                    <i class="fas fa-user-shield"></i> <span>5. 系統權限設定</span>
-                </li>
-                <li class="nav-item" onclick="switchTab('anti-fraud', this)">
-                    <i class="fas fa-shield-alt"></i> <span>6. 票選機制與防弊</span>
-                </li>
+                <li class="nav-item active" onclick="switchTab('dashboard', this)"><i class="fas fa-chart-pie"></i> <span>1. 即時統計儀表板</span></li>
+                <li class="nav-item" onclick="switchTab('members', this)"><i class="fas fa-users"></i> <span>2. 會員與數據管理</span></li>
+                <li class="nav-item" onclick="switchTab('trail-cms', this)"><i class="fas fa-mountain"></i> <span>3. 步道資料庫管理</span></li>
+                <li class="nav-item" onclick="switchTab('web-cms', this)"><i class="fas fa-edit"></i> <span>4. 網站內容管理</span></li>
+                <li class="nav-item" onclick="switchTab('permissions', this)"><i class="fas fa-user-shield"></i> <span>5. 系統權限設定</span></li>
+                <li class="nav-item" onclick="switchTab('anti-fraud', this)"><i class="fas fa-shield-alt"></i> <span>6. 票選機制與防弊</span></li>
             </ul>
         </aside>
 
@@ -212,17 +183,11 @@
 
                 <div class="dashboard-grid">
                     <div class="stat-card clickable-card" onclick="toggleTrendSection()">
-                        <div class="stat-info">
-                            <h4>總參與會員數 <i class="fas fa-hand-pointer" style="font-size:0.8rem; color:var(--dark);"></i></h4>
-                            <div class="number">62,408</div>
-                        </div>
+                        <div class="stat-info"><h4>總參與會員數 <i class="fas fa-hand-pointer" style="font-size:0.8rem; color:var(--dark);"></i></h4><div class="number">62,408</div></div>
                         <i class="fas fa-users stat-icon"></i>
                     </div>
                     <div class="stat-card clickable-card" style="border-color: var(--secondary);" onclick="toggleTrendSection()">
-                        <div class="stat-info">
-                            <h4>累積總票數 <i class="fas fa-hand-pointer" style="font-size:0.8rem; color:var(--dark);"></i></h4>
-                            <div class="number">184,291</div>
-                        </div>
+                        <div class="stat-info"><h4>累積總票數 <i class="fas fa-hand-pointer" style="font-size:0.8rem; color:var(--dark);"></i></h4><div class="number">184,291</div></div>
                         <i class="fas fa-ticket-alt stat-icon"></i>
                     </div>
                 </div>
@@ -250,10 +215,11 @@
                                 <button onclick="filterTrails('親子探索步道', this)">親子</button>
                                 <button onclick="filterTrails('挑戰健行步道', this)">挑戰</button>
                                 <button onclick="filterTrails('生態觀察步道', this)">生態</button>
+                                <button onclick="filterTrails('自然親山步道', this)">自然</button>
+                                <button onclick="filterTrails('人文尋訪步道', this)">人文</button>
                             </div>
                             <select id="trailSortSelect" onchange="renderTrailChart()">
-                                <option value="id">依編號排序</option>
-                                <option value="rank">依票數排名</option>
+                                <option value="id">依編號排序</option><option value="rank">依票數排名</option>
                             </select>
                         </div>
                     </div>
@@ -262,9 +228,7 @@
 
                 <div class="chart-grid">
                     <div class="chart-panel" style="min-width: 0;">
-                        <div class="chart-header">
-                            <div class="chart-title">票選時段分析 (5大時段)</div>
-                        </div>
+                        <div class="chart-header"><div class="chart-title">票選時段分析 (5大時段)</div></div>
                         <div class="chart-container" style="position: relative; height: 300px; width: 100%;"><canvas id="timeDistributionChart"></canvas></div>
                     </div>
 
@@ -281,9 +245,7 @@
                 </div>
 
                 <div class="chart-panel">
-                    <div class="chart-header">
-                        <div class="chart-title"><i class="fas fa-network-wired"></i> 系統流量趨勢 (PV/UV) <span style="font-size: 0.8rem; color: var(--text-light); margin-left: 10px; font-weight: normal;">來源：GA4</span></div>
-                    </div>
+                    <div class="chart-header"><div class="chart-title"><i class="fas fa-network-wired"></i> 系統流量趨勢 (PV/UV) <span style="font-size: 0.8rem; color: var(--text-light); margin-left: 10px; font-weight: normal;">來源：GA4</span></div></div>
                     <div class="chart-container"><canvas id="trafficChart"></canvas></div>
                 </div>
             </div>
@@ -333,7 +295,7 @@
                         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                             <input type="text" id="filterCmsKeyword" class="search-bar" placeholder="搜尋步道名稱、縣市..." style="width: 250px;" onkeyup="renderCmsTable()">
                             <select id="filterCmsRegion" onchange="renderCmsTable()"><option value="">全部區域</option><option value="北部">北部</option><option value="中部">中部</option><option value="南部">南部</option><option value="東部">東部</option></select>
-                            <select id="filterCmsType" onchange="renderCmsTable()"><option value="">全部主題類型</option><option value="親子探索">親子探索</option><option value="挑戰健行">挑戰健行</option><option value="生態觀察">生態觀察</option><option value="自然親山">自然親山</option><option value="人文尋訪">人文尋訪</option></select>
+                            <select id="filterCmsType" onchange="renderCmsTable()"><option value="">全部主題類型</option><option value="親子探索步道">親子探索</option><option value="挑戰健行步道">挑戰健行</option><option value="生態觀察步道">生態觀察</option><option value="自然親山步道">自然親山</option><option value="人文尋訪步道">人文尋訪</option></select>
                         </div>
                         <span style="font-size: 0.9rem; color: var(--text-light); font-weight: 500;">當前結果：<strong id="cms-trail-count" style="color: var(--primary);">20</strong> 條</span>
                     </div>
@@ -353,7 +315,7 @@
                 <div class="page-title"><span>網站內容管理 (Web CMS)</span></div>
                 
                 <div class="chart-panel">
-                    <div class="chart-header"><div class="chart-title"><i class="fas fa-images"></i> 首頁輪播圖管理</div></div>
+                    <div class="chart-header"><div class="chart-title"><i class="fas fa-images"></i> 首頁輪播圖管理</div><button class="btn-outline"><i class="fas fa-plus"></i> 新增</button></div>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead><tr><th>預覽圖</th><th>標題/替代文字</th><th>跳轉連結</th><th>排序</th><th>狀態</th><th>操作</th></tr></thead>
@@ -367,8 +329,8 @@
 
                 <div class="chart-panel">
                     <div class="chart-header">
-                        <div class="chart-title"><i class="fas fa-file-alt"></i> 首頁簡介與公告</div>
-                        <button class="btn-outline" style="background: var(--primary); color: white;" onclick="alert('已同步發布至前台！')"><i class="fas fa-save"></i> 儲存</button>
+                        <div class="chart-title"><i class="fas fa-file-alt"></i> 首頁簡介與公告維護</div>
+                        <button class="btn-outline" style="background: var(--primary); color: white;" onclick="alert('已同步發布至前台！')"><i class="fas fa-save"></i> 儲存並發布</button>
                     </div>
                     <div style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
                         <div style="background: #f9f9f9; padding: 10px; border-bottom: 1px solid var(--border); display: flex; gap: 15px; flex-wrap: wrap;">
@@ -383,13 +345,41 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title"><i class="fab fa-youtube"></i> 影音多媒體管理 (YouTube)</div>
+                        <button class="btn-outline"><i class="fas fa-plus"></i> 新增影片連結</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr><th>影片標題</th><th>YouTube 網址</th><th>前台狀態</th><th>操作</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>115年全國登山步道票選 宣傳影片(90秒)</td>
+                                    <td><a href="#" style="color:var(--primary);">https://youtu.be/example1</a></td>
+                                    <td><span class="badge normal">上架中</span></td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-danger">下架</button></td>
+                                </tr>
+                                <tr>
+                                    <td>步道安全宣導與投票教學</td>
+                                    <td><a href="#" style="color:var(--primary);">https://youtu.be/example2</a></td>
+                                    <td><span class="badge banned">已下架</span></td>
+                                    <td><button class="btn-outline">編輯</button> <button class="btn-outline">上架</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div id="view-permissions" class="view-section">
                 <div class="page-title"><span>系統權限與資安設定</span></div>
                 
                 <div class="chart-panel">
-                    <div class="chart-header"><div class="chart-title"><i class="fas fa-user-cog"></i> 管理員帳號維護</div><button class="btn-outline"><i class="fas fa-user-plus"></i> 新增帳號</button></div>
+                    <div class="chart-header"><div class="chart-title"><i class="fas fa-user-cog"></i> 管理員帳號維護</div><button class="btn-outline"><i class="fas fa-user-plus"></i> 新增</button></div>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead><tr><th>帳號 (ID)</th><th>姓名</th><th>角色層級</th><th>狀態</th><th>最後登入時間</th><th>操作</th></tr></thead>
@@ -406,7 +396,7 @@
                     <div class="chart-header"><div class="chart-title"><i class="fas fa-sliders-h"></i> 模組權限分配矩陣</div><button class="btn-outline" style="background: var(--primary); color: white;"><i class="fas fa-save"></i> 儲存</button></div>
                     <div style="overflow-x: auto;">
                         <table style="text-align: center;">
-                            <thead><tr><th style="text-align: left;">角色名稱</th><th style="text-align: center;">1.儀表板</th><th style="text-align: center;">2.會員數據</th><th style="text-align: center;">3.步道CMS</th><th style="text-align: center;">4.網站CMS</th><th style="text-align: center;">5.權限設定</th><th style="text-align: center;">6.防弊監控</th></tr></thead>
+                            <thead><tr><th style="text-align: left;">角色名稱</th><th style="text-align: center;">1.儀表板</th><th style="text-align: center;">2.會員</th><th style="text-align: center;">3.步道CMS</th><th style="text-align: center;">4.網站CMS</th><th style="text-align: center;">5.權限</th><th style="text-align: center;">6.防弊</th></tr></thead>
                             <tbody>
                                 <tr><td style="text-align: left; font-weight: bold; color: var(--primary);">超級管理員</td><td><input type="checkbox" checked disabled></td><td><input type="checkbox" checked disabled></td><td><input type="checkbox" checked disabled></td><td><input type="checkbox" checked disabled></td><td><input type="checkbox" checked disabled></td><td><input type="checkbox" checked disabled></td></tr>
                                 <tr><td style="text-align: left; font-weight: bold;">一般編輯員</td><td><input type="checkbox" checked></td><td><input type="checkbox"></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox"></td><td><input type="checkbox"></td></tr>
@@ -496,34 +486,81 @@
             <h2 id="modal-title" style="border:none; margin-bottom: 5px; color: var(--primary);">步道名稱</h2>
             <div class="modal-tabs">
                 <button class="modal-tab-btn active" onclick="switchModalTab('tab-basic', this)">📄 基本資料</button>
-                <button class="modal-tab-btn" onclick="switchModalTab('tab-traffic', this)">🚌 交通</button>
-                <button class="modal-tab-btn" onclick="switchModalTab('tab-map', this)">🗺️ 地圖</button>
-                <button class="modal-tab-btn" onclick="switchModalTab('tab-eco', this)">🌿 生態</button>
+                <button class="modal-tab-btn" onclick="switchModalTab('tab-traffic', this)">🚌 交通方式</button>
+                <button class="modal-tab-btn" onclick="switchModalTab('tab-map', this)">🗺️ 路線地圖</button>
+                <button class="modal-tab-btn" onclick="switchModalTab('tab-eco', this)">🌿 人文生態</button>
             </div>
             
             <div id="tab-basic" class="modal-tab-content active">
-                <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #a3c2ba 0%, #7da69a 100%); border-radius: 8px; margin-bottom: 15px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;"><i class="fas fa-image" style="font-size:2rem; margin-right:10px;"></i> 步道實景圖</div>
+                <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #a3c2ba 0%, #7da69a 100%); border-radius: 8px; margin-bottom: 15px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;"><i class="fas fa-image" style="font-size:2rem; margin-right:10px;"></i> 步道實景圖 (模擬前台動態路徑)</div>
                 <div style="overflow-x: auto;">
-                <table class="info-table">
-                    <tr><th>步道簡介</th><td id="m-desc"></td></tr><tr><th>所在縣市</th><td id="m-city"></td></tr><tr><th>里程 (長度)</th><td id="m-len"></td></tr>
-                    <tr><th>步道類型</th><td id="m-type"></td></tr><tr><th>難易度</th><td id="m-diff"></td></tr><tr><th>備註</th><td>請隨時補充水分。</td></tr>
-                </table>
+                    <table class="info-table">
+                        <tr><th>步道簡介</th><td id="m-desc"></td></tr>
+                        <tr><th>所在縣市</th><td id="m-city"></td></tr>
+                        <tr><th>里程 (長度)</th><td id="m-len"></td></tr>
+                        <tr><th>步道類型</th><td id="m-type"></td></tr>
+                        <tr><th>步道型態</th><td>線性 / 環狀 / 雙向折返</td></tr>
+                        <tr><th>海拔高度</th><td>100 ~ 2,500 m</td></tr>
+                        <tr><th>高度落差</th><td>50 ~ 400 m</td></tr>
+                        <tr><th>路面狀況</th><td>石階、原始土路、木棧道</td></tr>
+                        <tr><th>所需時間</th><td>約 1 ~ 4 小時</td></tr>
+                        <tr><th>難易度</th><td id="m-diff"></td></tr>
+                        <tr><th>所屬園區</th><td>國家公園 / 國家森林遊樂區 / 無</td></tr>
+                        <tr><th>山脈</th><td>中央山脈 / 雪山山脈 / 郊山系統</td></tr>
+                        <tr><th>最適季節</th><td>四季皆宜</td></tr>
+                        <tr><th>申請入山</th><td>免</td></tr>
+                        <tr><th>申請入園</th><td>免</td></tr>
+                        <tr><th>備註</th><td>戶外活動請注意防蚊與防曬，並隨時補充水分。</td></tr>
+                    </table>
                 </div>
             </div>
-            <div id="tab-traffic" class="modal-tab-content"><div style="overflow-x: auto;"><table class="info-table"><tr><th>開車</th><td>導航至步道登山口。</td></tr><tr><th>大眾運輸</th><td>搭乘大眾客運前往。</td></tr></table></div></div>
-            <div id="tab-map" class="modal-tab-content"><div style="overflow-x: auto;"><table class="info-table"><tr><th>路線</th><td>環狀串聯，指標清晰。</td></tr><tr><th>地圖</th><td><div class="placeholder" style="height: 120px;"><i class="fas fa-map-marked-alt"></i> Map</div></td></tr></table></div></div>
-            <div id="tab-eco" class="modal-tab-content"><div style="overflow-x: auto;"><table class="info-table"><tr><th>動植物</th><td>常見鳥類、低海拔闊葉林。</td></tr></table></div></div>
+            
+            <div id="tab-traffic" class="modal-tab-content">
+                <div style="overflow-x: auto;">
+                    <table class="info-table">
+                        <tr><th>開車</th><td>導航至步道登山口附近停車場。</td></tr>
+                        <tr><th>大眾運輸</th><td>搭乘大眾客運至特定站點後步行前往。</td></tr>
+                        <tr><th>出發點</th><td>登山口導覽牌前</td></tr>
+                        <tr>
+                            <th>路線規劃</th>
+                            <td>
+                                <input type="text" value="台北車站" style="padding: 5px; width: 30%; max-width: 150px; margin-bottom: 5px;"> ➔ 
+                                <input type="text" id="m-route-dest" readonly style="padding: 5px; background:#eee; width: 30%; max-width: 150px; margin-bottom: 5px;">
+                                <button class="btn-outline" style="padding: 3px 10px; font-size:0.8rem; margin-left:5px;">查詢</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-map" class="modal-tab-content">
+                <div style="overflow-x: auto;">
+                    <table class="info-table">
+                        <tr><th>路線</th><td>環狀串聯，指標清晰。</td></tr>
+                        <tr><th>地圖</th><td><div class="placeholder" style="height: 180px;"><i class="fas fa-map-marked-alt" style="margin-right:8px;"></i> Google Map 模擬介接嵌入區</div></td></tr>
+                        <tr><th>路線圖</th><td><div class="placeholder" style="height: 180px;"><i class="fas fa-chart-area" style="margin-right:8px;"></i> 路線高程圖 / GPX 軌跡示意圖</div></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-eco" class="modal-tab-content">
+                <div style="overflow-x: auto;">
+                    <table class="info-table">
+                        <tr><th>動物</th><td>常見鳥類、昆蟲與台灣獼猴、松鼠。</td></tr>
+                        <tr><th>植物</th><td>低海拔闊葉林、柳杉人工林、蕨類植物。</td></tr>
+                        <tr><th>地形地貌</th><td>溪谷地形、瀑布景觀、碎石坡。</td></tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 手機版側邊欄開關與遮罩邏輯
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('active');
             document.getElementById('sidebar-overlay').classList.toggle('active');
         }
 
-        // 登入與登出
         function login() {
             sessionStorage.setItem('isLoggedIn', 'true');
             document.getElementById('login-view').style.opacity = '0';
@@ -536,13 +573,10 @@
 
         function logout() {
             sessionStorage.removeItem('isLoggedIn');
-            
-            // 手機版登出時自動收起側邊欄
             if(window.innerWidth <= 768) {
                 document.querySelector('.sidebar').classList.remove('active');
                 document.getElementById('sidebar-overlay').classList.remove('active');
             }
-
             document.getElementById('app-view').style.display = 'none';
             const loginView = document.getElementById('login-view');
             loginView.style.display = 'flex';
@@ -551,7 +585,6 @@
             switchTab('dashboard', document.querySelector('.nav-item')); 
         }
 
-        // 全域 Chart.js 設定
         Chart.register(ChartDataLabels);
         Chart.defaults.plugins.datalabels.display = false;
         Chart.defaults.font.family = "'Noto Sans TC', sans-serif";
@@ -559,7 +592,6 @@
 
         function exportData(moduleName) { alert(`【${moduleName}】 資料已成功匯出！`); }
 
-        // 模組切換機制
         let dashboardInitialized = false; let membersInitialized = false; let cmsInitialized = false;
 
         function switchTab(viewId, element) {
@@ -569,7 +601,6 @@
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             if (document.getElementById('view-' + viewId)) document.getElementById('view-' + viewId).classList.add('active');
             
-            // 【修復核心】手機版點擊選單後，自動收起側邊欄與遮罩
             if(window.innerWidth <= 768) {
                 document.querySelector('.sidebar').classList.remove('active');
                 document.getElementById('sidebar-overlay').classList.remove('active');
@@ -580,7 +611,9 @@
             else if (viewId === 'trail-cms' && !cmsInitialized) { renderCmsTable(); cmsInitialized = true; }
         }
 
-        // 1. Dashboard 圖表
+        // =====================================
+        // 1. Dashboard 圖表 (無刪減版)
+        // =====================================
         let trendChart, trailChartInstance, regionChartInstance;
         let currentTypeFilter = '全部';
 
@@ -596,19 +629,28 @@
             { id: 17, name: '見晴懷古步道', type: '自然親山步道', votes: 17500 }, { id: 18, name: '獅頭山步道', type: '自然親山步道', votes: 8500 },
             { id: 19, name: '嘉明湖步道', type: '挑戰健行步道', votes: 22000 }, { id: 20, name: '砂卡礑步道', type: '生態觀察步道', votes: 20500 }
         ];
-        const rawRegionData = [ { name: '北部', votes: 82930, geoIndex: 1 }, { name: '中部', votes: 46072, geoIndex: 2 }, { name: '南部', votes: 36858, geoIndex: 3 }, { name: '東部/離島', votes: 18431, geoIndex: 4 } ];
-        const rawCityData = [ { name: '基隆市', votes: 4000 }, { name: '臺北市', votes: 25000 }, { name: '新北市', votes: 32000 }, { name: '桃園市', votes: 12000 }, { name: '新竹縣', votes: 5000 }, { name: '臺中市', votes: 18000 }, { name: '南投縣', votes: 15000 }, { name: '高雄市', votes: 15000 }, { name: '宜蘭縣', votes: 8000 }, { name: '花蓮縣', votes: 6000 } ].map((item, index) => ({ ...item, geoIndex: index }));
+        
+        const rawRegionData = [ { name: '北部', votes: 82930, geoIndex: 1 }, { name: '中部', votes: 46072, geoIndex: 2 }, { name: '南部', votes: 36858, geoIndex: 3 }, { name: '東部與離島', votes: 18431, geoIndex: 4 } ];
+        
+        // 【修復】完整 22 縣市資料
+        const rawCityData = [ 
+            { name: '基隆市', votes: 4000 }, { name: '臺北市', votes: 25000 }, { name: '新北市', votes: 32000 }, { name: '桃園市', votes: 12000 }, { name: '新竹縣', votes: 5000 }, 
+            { name: '新竹市', votes: 4930 }, { name: '苗栗縣', votes: 3000 }, { name: '臺中市', votes: 18000 }, { name: '彰化縣', votes: 5000 }, { name: '南投縣', votes: 15000 }, 
+            { name: '雲林縣', votes: 2072 }, { name: '嘉義縣', votes: 4000 }, { name: '嘉義市', votes: 2000 }, { name: '臺南市', votes: 12000 }, { name: '高雄市', votes: 15000 }, 
+            { name: '屏東縣', votes: 3858 }, { name: '宜蘭縣', votes: 8000 }, { name: '花蓮縣', votes: 6000 }, { name: '臺東縣', votes: 3000 }, { name: '澎湖縣', votes: 800 }, 
+            { name: '金門縣', votes: 500 }, { name: '連江縣', votes: 131 } 
+        ].map((item, index) => ({ ...item, geoIndex: index }));
 
         function initDashboardCharts() {
             renderTrailChart(); updateRegionChart();
             new Chart(document.getElementById('timeDistributionChart').getContext('2d'), { type: 'doughnut', data: { labels: ['凌晨', '上午', '中午', '下午', '晚間'], datasets: [{ data: [3, 20, 15, 27, 35], backgroundColor: ['#dcdcdc', '#9ec7ad', '#f4a261', '#83b86b', '#5f8f83'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
-            new Chart(document.getElementById('trafficChart').getContext('2d'), { type: 'line', data: { labels: ['8/1', '8/2', '8/3', '8/4', '8/5', '8/6', '8/7'], datasets: [{ label: 'PV', data: [5000, 12000, 35000, 60000, 95000, 150000, 210000], borderColor: '#5f8f83', borderDash: [5, 5], tension: 0.3, backgroundColor: 'transparent' }, { label: 'UV', data: [1200, 3500, 8900, 15000, 28000, 45000, 62000], borderColor: '#83b86b', tension: 0.3, backgroundColor: 'transparent' }] }, options: { responsive: true, maintainAspectRatio: false, interaction: interactionConfig } });
+            new Chart(document.getElementById('trafficChart').getContext('2d'), { type: 'line', data: { labels: ['8/1', '8/2', '8/3', '8/4', '8/5', '8/6', '8/7'], datasets: [{ label: 'PV (瀏覽量)', data: [5000, 12000, 35000, 60000, 95000, 150000, 210000], borderColor: '#5f8f83', borderDash: [5, 5], tension: 0.3, backgroundColor: 'transparent' }, { label: 'UV (獨立訪客)', data: [1200, 3500, 8900, 15000, 28000, 45000, 62000], borderColor: '#83b86b', tension: 0.3, backgroundColor: 'transparent' }] }, options: { responsive: true, maintainAspectRatio: false, interaction: interactionConfig } });
         }
         function toggleTrendSection() {
             const section = document.getElementById('trend-section');
             if (section.style.display === 'none' || section.style.display === '') {
                 section.style.display = 'block';
-                if(!trendChart) { trendChart = new Chart(document.getElementById('trendChart').getContext('2d'), { type: 'line', data: { labels: ['8/1', '8/2', '8/3', '8/4', '8/5', '8/6', '8/7'], datasets: [{ label: '會員數', data: [1200, 3500, 8900, 15000, 28000, 45000, 62408], borderColor: '#5f8f83', backgroundColor: 'rgba(95, 143, 131, 0.1)', fill: true, tension: 0.4 }, { label: '總票數', data: [3400, 10500, 26700, 45000, 84000, 135000, 184291], borderColor: '#83b86b', backgroundColor: 'rgba(131, 184, 107, 0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, interaction: interactionConfig } }); }
+                if(!trendChart) { trendChart = new Chart(document.getElementById('trendChart').getContext('2d'), { type: 'line', data: { labels: ['8/1', '8/2', '8/3', '8/4', '8/5', '8/6', '8/7'], datasets: [{ label: '累積會員數', data: [1200, 3500, 8900, 15000, 28000, 45000, 62408], borderColor: '#5f8f83', backgroundColor: 'rgba(95, 143, 131, 0.1)', fill: true, tension: 0.4 }, { label: '累積總票數', data: [3400, 10500, 26700, 45000, 84000, 135000, 184291], borderColor: '#83b86b', backgroundColor: 'rgba(131, 184, 107, 0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, interaction: interactionConfig } }); }
             } else { section.style.display = 'none'; }
         }
         function updateTrendChart(mode, btn) { Array.from(btn.parentElement.children).forEach(b => b.classList.remove('active')); btn.classList.add('active'); trendChart.setDatasetVisibility(0, mode === 'all' || mode === 'member'); trendChart.setDatasetVisibility(1, mode === 'all' || mode === 'vote'); trendChart.update(); }
@@ -616,7 +658,17 @@
         
         function renderTrailChart() {
             const sortMode = document.getElementById('trailSortSelect').value; let filtered = rawTrails.filter(t => currentTypeFilter === '全部' || t.type === currentTypeFilter); filtered.sort((a, b) => sortMode === 'rank' ? b.votes - a.votes : a.id - b.id);
-            const labels = window.innerWidth <= 768 ? filtered.map(t => t.name) : filtered.map(t => `${t.id}. ${t.name}`); const data = filtered.map(t => t.votes); const colors = filtered.map(t => { if(t.type.includes('親子')) return '#f4a261'; if(t.type.includes('挑戰')) return '#e76f51'; if(t.type.includes('生態')) return '#83b86b'; return '#69a99f'; });
+            const labels = window.innerWidth <= 768 ? filtered.map(t => t.name) : filtered.map(t => `${t.id}. ${t.name}`); const data = filtered.map(t => t.votes); 
+            
+            // 【修復】補回缺少的圖表分類顏色
+            const colors = filtered.map(t => { 
+                if(t.type.includes('親子')) return '#f4a261'; 
+                if(t.type.includes('挑戰')) return '#e76f51'; 
+                if(t.type.includes('生態')) return '#83b86b'; 
+                if(t.type.includes('自然')) return '#9ec7ad'; 
+                return '#69a99f'; 
+            });
+
             if(trailChartInstance) { trailChartInstance.data.labels = labels; trailChartInstance.data.datasets[0].data = data; trailChartInstance.data.datasets[0].backgroundColor = colors; trailChartInstance.update(); } else { trailChartInstance = new Chart(document.getElementById('trailVotesChart').getContext('2d'), { type: 'bar', data: { labels: labels, datasets: [{ label: '票數', data: data, backgroundColor: colors, borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 30 } }, plugins: { legend: { display: false }, datalabels: { display: true, anchor: 'end', align: 'top', color: '#333333', font: { weight: 'bold', size: 10 }, formatter: (value) => value.toLocaleString() } } } }); }
         }
         function updateRegionChart() {
@@ -625,11 +677,16 @@
             if (regionChartInstance) { regionChartInstance.data.labels = labels; regionChartInstance.data.datasets[0].data = data; regionChartInstance.update(); } else { regionChartInstance = new Chart(document.getElementById('regionChart').getContext('2d'), { type: 'bar', data: { labels: labels, datasets: [{ label: '票數', data: data, backgroundColor: '#9ec7ad', borderRadius: 4 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } }); }
         }
 
-        // 2. Members 圖表
+        // =====================================
+        // 2. Members 圖表與資料庫 (無刪減版)
+        // =====================================
+        // 【修復】還原 5 筆完整假資料
         const memberData = [
             { id: '#U98214', name: '王*明', source: 'LINE', sourceClass: 'line', ageGender: '35-44歲/男', city: '臺北市', totalVotes: 12, leftVotes: 0, status: '正常', statusClass: 'normal' },
             { id: '#U98215', name: '林*華', source: 'Facebook', sourceClass: 'fb', ageGender: '25-34歲/女', city: '臺中市', totalVotes: 5, leftVotes: 2, status: '正常', statusClass: 'normal' },
-            { id: '#U98216', name: '陳*豪(異常)', source: 'LINE', sourceClass: 'line', ageGender: '18-24歲/男', city: '新北市', totalVotes: 48, leftVotes: 0, status: '停權', statusClass: 'banned' }
+            { id: '#U98216', name: '陳*豪(異常)', source: 'LINE', sourceClass: 'line', ageGender: '18-24歲/男', city: '新北市', totalVotes: 48, leftVotes: 0, status: '停權', statusClass: 'banned' },
+            { id: '#U98217', name: '張*婷', source: 'Facebook', sourceClass: 'fb', ageGender: '45-54歲/女', city: '高雄市', totalVotes: 18, leftVotes: 1, status: '正常', statusClass: 'normal' },
+            { id: '#U98218', name: 'Kevin Li', source: 'Instagram', sourceClass: 'ig', ageGender: '25-34歲/男', city: '桃園市', totalVotes: 3, leftVotes: 3, status: '正常', statusClass: 'normal' }
         ];
 
         function initMemberCharts() {
@@ -652,7 +709,7 @@
 
             filteredMembers.forEach(m => {
                 const tr = document.createElement('tr');
-                let sourceBadge = `<span class="badge ${m.sourceClass}">${m.source}</span>`;
+                let sourceBadge = m.source === 'Instagram' ? `<span class="badge" style="background-color:#E1306C; color:white;">Instagram</span>` : `<span class="badge ${m.sourceClass}">${m.source}</span>`;
                 let actionBtn = `<button class="btn-outline">詳細</button>`;
                 if(m.status === '停權') { actionBtn += ` <button class="btn-danger" style="padding: 4px 8px;">解鎖</button>`; }
 
@@ -661,13 +718,35 @@
             });
         }
 
-        // 3. Trail CMS
+        // =====================================
+        // 3. Trail CMS 資料庫 (無刪減版)
+        // =====================================
+        // 【修復】還原 20 條步道完整陣列資料
         const cmsTrails = [
-            { id: 1, name: '信賢步道', type: '親子探索步道', city: '新北市', len: '1.5公里', diff: '低', desc: '平緩好走，瀑布眾多。' },
-            { id: 2, name: '合歡主峰步道', type: '挑戰健行步道', city: '南投縣', len: '1.8公里', diff: '普通', desc: '百岳入門步道。' },
-            { id: 3, name: '阿里山巨木群', type: '生態觀察步道', city: '嘉義縣', len: '2.3公里', diff: '低', desc: '千年紅檜巨木林。' }
+            { id: 1, name: '信賢步道', type: '親子探索步道', city: '新北市', len: '1.5公里', diff: '低', desc: '平緩好走的沿溪步道，沿途瀑布眾多，非常適合全家大小一同散步健行。' },
+            { id: 2, name: '合歡主峰步道', type: '挑戰健行步道', city: '南投縣', len: '1.8公里', diff: '普通', desc: '視野極佳的百岳入門步道，沿途可欣賞壯麗的高山箭竹景觀與綿延山脈。' },
+            { id: 3, name: '阿里山巨木群步道', type: '生態觀察步道', city: '嘉義縣', len: '2.3公里', diff: '低', desc: '穿梭在千年紅檜巨木林之中，吸收豐富的芬多精，體驗珍貴森林生態環境。' },
+            { id: 4, name: '五峰旗瀑布步道', type: '自然親山步道', city: '宜蘭縣', len: '1.0公里', diff: '低', desc: '著名的瀑布健行路線，共有三層不同風貌的瀑布飛瀉，水氣充沛、景色宜人。' },
+            { id: 5, name: '特富野古道', type: '人文尋訪步道', city: '嘉義縣', len: '6.3公里', diff: '普通', desc: '舊時鄒族獵徑與日治時期鐵道遺構交織，沿途柳杉林立，極具歷史人文氣息。' },
+            { id: 6, name: '二子坪步道', type: '親子探索步道', city: '新北市', len: '1.8公里', diff: '極低', desc: '全台首創的五星級無障礙步道，道路平坦、生態池豐富，四季景致各具特色。' },
+            { id: 7, name: '大坑9號步道', type: '親子探索步道', city: '臺中市', len: '1.6公里', diff: '低', desc: '台中市熱門親山步道，沿線視野遼闊，可俯瞰台中盆地景觀，市集林立熱鬧。' },
+            { id: 8, name: '象山親山步道', type: '親子探索步道', city: '臺北市', len: '1.4公里', diff: '低', desc: '台北著名眺望 101 大樓的絕佳景點，階梯較多，適合傍晚登山賞夜景。' },
+            { id: 9, name: '無耳茶壺山步道', type: '挑戰健行步道', city: '新北市', len: '2.8公里', diff: '普通', desc: '外型如同沒有耳朵茶壺而得名，登頂可俯瞰陰陽海、東北角海岸線，風景壯闊。' },
+            { id: 10, name: '硬漢嶺步道', type: '挑戰健行步道', city: '新北市', len: '1.6公里', diff: '普通', desc: '觀音山最高峰，沿途多為陡峭石階，登頂「硬漢碑」可飽覽淡水河口與大台北景致。' },
+            { id: 11, name: '林美石磐步道', type: '生態觀察步道', city: '宜蘭縣', len: '1.7公里', diff: '低', desc: '低海拔亞熱帶溪谷步道，沿途茂盛蕨類與清澈瀑布交織，被譽為宜蘭小太魯閣。' },
+            { id: 12, name: '合歡石門山步道', type: '自然親山步道', city: '花蓮縣', len: '0.8公里', diff: '低', desc: '台灣最容易親近的百岳之一，步道鋪設良好，僅需輕健行即可登頂擁抱大山。' },
+            { id: 13, name: '草嶺古道', type: '人文尋訪步道', city: '新北市', len: '8.5公里', diff: '普通', desc: '清代淡蘭古道之北路遺留，秋季芒花翻飛，沿途可見虎字碑、雄鎮蠻煙碑等古蹟。' },
+            { id: 14, name: '瓦拉米步道', type: '人文尋訪步道', city: '花蓮縣', len: '14.0公里', diff: '高', desc: '八通關越嶺道東段一部分，沿蕨溪前行，林相原始，蘊含豐富的布農族歷史。' },
+            { id: 15, name: '滿月圓步道', type: '生態觀察步道', city: '新北市', len: '2.2公里', diff: '低', desc: '森林遊樂區之核心步道，蚋仔溪流貫，以瀑布群、豐富的鳥類與蝴蝶生態聞名。' },
+            { id: 16, name: '阿塱壹古道', type: '人文尋訪步道', city: '屏東縣', len: '8.4公里', diff: '高', desc: '台灣少數僅存的原始海岸線，兼具地質景觀與歷史貿易路線意義，臨海震撼。' },
+            { id: 17, name: '見晴懷古步道', type: '自然親山步道', city: '宜蘭縣', len: '0.9公里', diff: '極低', desc: '曾入選全球最美28條小路，舊鐵道台車軌道隱沒於霧林之中，極具懷舊森林美感。' },
+            { id: 18, name: '獅頭山步道', type: '自然親山步道', city: '新竹縣', len: '3.5公里', diff: '低', desc: '著名宗教聖地親山步道，沿途寺廟依山壁而建，林蔭蔥鬱，人文與環境並存。' },
+            { id: 19, name: '嘉明湖步道', type: '挑戰健行步道', city: '臺東縣', len: '13.0公里', diff: '高', desc: '通往「天使的眼淚」高山隕石湖，高海拔挑戰路線，橫跨百岳，景觀絕美高傲。' },
+            { id: 20, name: '砂卡礑步道', type: '生態觀察步道', city: '花蓮縣', len: '4.1公里', diff: '低', desc: '依大理石峭壁開鑿，湛藍碧綠的砂卡礑溪伴行，褶皺地形與原住民文化特色顯著。' }
         ];
-        let trailStatusMap = {1:true, 2:true, 3:false};
+        
+        let trailStatusMap = {};
+        cmsTrails.forEach(t => { trailStatusMap[t.id] = true; });
 
         function renderCmsTable() {
             const tbody = document.getElementById('trail-table-body');
@@ -676,7 +755,14 @@
             const keyword = document.getElementById('filterCmsKeyword') ? document.getElementById('filterCmsKeyword').value.trim() : '';
             const region = document.getElementById('filterCmsRegion') ? document.getElementById('filterCmsRegion').value : '';
             const type = document.getElementById('filterCmsType') ? document.getElementById('filterCmsType').value : '';
-            const regionMap = { '北部': ['新北市', '宜蘭縣'], '中部': ['南投縣'], '南部': ['嘉義縣'] };
+            
+            // 【修復】還原全台 22 縣市矩陣對應
+            const regionMap = {
+                '北部': ['基隆市', '臺北市', '新北市', '桃園市', '新竹縣', '新竹市', '宜蘭縣'],
+                '中部': ['苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣'],
+                '南部': ['嘉義縣', '嘉義市', '臺南市', '高雄市', '屏東縣'],
+                '東部': ['花蓮縣', '臺東縣']
+            };
 
             const filteredTrails = cmsTrails.filter(trail => {
                 return (keyword === '' || trail.name.includes(keyword) || trail.city.includes(keyword)) &&
@@ -689,11 +775,14 @@
             filteredTrails.forEach(trail => {
                 const isOnline = trailStatusMap[trail.id];
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td style="text-align:center;">${trail.id}</td><td>${trail.name}</td><td>${trail.city}</td><td>${trail.len}</td><td>${trail.type}</td><td>${trail.diff}</td>
+                tr.innerHTML = `<td style="text-align:center; font-weight:bold; color:var(--text-light);">${trail.id}</td>
+                    <td style="font-weight:500; color:var(--primary);">${trail.name}</td><td>${trail.city}</td>
+                    <td><i class="fas fa-route" style="color:#aaa; font-size:0.85rem;"></i> ${trail.len}</td>
+                    <td><span class="badge" style="background:#eee; color:#333; font-weight:normal;">${trail.type}</span></td><td>${trail.diff}</td>
                     <td style="text-align:center;" id="status-cell-${trail.id}">${isOnline ? '<span class="badge normal">上架中</span>' : '<span class="badge banned">已下架</span>'}</td>
                     <td style="text-align:center;">
-                        <button class="btn-outline" style="padding:4px 8px;" onclick="openCmsTrailModal(${trail.id})">預覽</button>
-                        <button class="${isOnline?'btn-danger':'btn-outline'}" style="padding:4px 8px;" id="toggle-btn-${trail.id}" onclick="toggleTrailStatus(${trail.id})">${isOnline?'下架':'上架'}</button>
+                        <button class="btn-outline" style="padding:4px 8px; font-size: 0.8rem;" onclick="openCmsTrailModal(${trail.id})"><i class="fas fa-search"></i> 預覽格式</button>
+                        <button class="${isOnline?'btn-danger':'btn-outline'}" style="padding:4px 8px; font-size: 0.8rem; min-width:65px;" id="toggle-btn-${trail.id}" onclick="toggleTrailStatus(${trail.id})">${isOnline?'<i class="fas fa-eye-slash"></i> 下架':'<i class="fas fa-eye"></i> 上架'}</button>
                     </td>`;
                 tbody.appendChild(tr);
             });
@@ -704,7 +793,7 @@
             const isOnline = trailStatusMap[id];
             document.getElementById(`status-cell-${id}`).innerHTML = isOnline ? '<span class="badge normal">上架中</span>' : '<span class="badge banned">已下架</span>';
             const btn = document.getElementById(`toggle-btn-${id}`);
-            btn.innerHTML = isOnline ? '下架' : '上架'; btn.className = isOnline ? 'btn-danger' : 'btn-outline';
+            btn.innerHTML = isOnline ? '<i class="fas fa-eye-slash"></i> 下架' : '<i class="fas fa-eye"></i> 上架'; btn.className = isOnline ? 'btn-danger' : 'btn-outline';
         }
 
         function openCmsTrailModal(id) {
@@ -725,7 +814,7 @@
         }
         window.onclick = function(event) { const modal = document.getElementById('trail-modal'); if (event.target == modal) { modal.style.display = 'none'; } }
 
-        // 初始化
+        // 初始化檢查登入狀態
         document.addEventListener("DOMContentLoaded", () => {
             if (sessionStorage.getItem('isLoggedIn') === 'true') {
                 document.getElementById('login-view').style.display = 'none';
