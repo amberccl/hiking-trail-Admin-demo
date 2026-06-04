@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全國登山步道票選活動 - 後台管理系統 V6</title>
+    <title>全國登山步道票選活動 - 後台管理系統 V7</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -140,7 +140,7 @@
     <div id="app-view">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h3>Trail Admin <span class="version-tag">V6</span></h3>
+                <h3>Trail Admin <span class="version-tag">V7</span></h3>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item active" onclick="switchTab('dashboard', this)">
@@ -158,7 +158,7 @@
                 <li class="nav-item" onclick="switchTab('permissions', this)">
                     <i class="fas fa-user-shield"></i> <span>5. 系統權限設定</span>
                 </li>
-                <li class="nav-item" onclick="switchTab('placeholder', this)">
+                <li class="nav-item" onclick="switchTab('anti-fraud', this)">
                     <i class="fas fa-shield-alt"></i> <span>6. 票選機制與防弊</span>
                 </li>
             </ul>
@@ -591,6 +591,127 @@
                         </table>
                     </div>
                     <div style="margin-top: 15px; text-align: right; color: var(--text-light); font-size: 0.85rem;">日誌保留期限：180 天 | 目前顯示：最近 50 筆</div>
+                </div>
+            </div>
+
+<div id="view-anti-fraud" class="view-section">
+                <div class="page-title">
+                    <span>票選機制與防弊監控</span>
+                    <button class="btn-outline" style="background: var(--danger); color: white; border-color: var(--danger);" onclick="alert('系統已進入最高防護警戒狀態！')"><i class="fas fa-exclamation-triangle"></i> 啟動緊急防護</button>
+                </div>
+                
+                <div class="chart-grid">
+                    <div class="chart-panel" style="min-width: 0;">
+                        <div class="chart-header">
+                            <div class="chart-title"><i class="fas fa-cogs"></i> 票選基礎規則設定</div>
+                            <button class="btn-outline" style="background: var(--primary); color: white;" onclick="alert('規則已儲存！')"><i class="fas fa-save"></i> 儲存</button>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                                <div>
+                                    <h4 style="color: var(--text-main); margin-bottom: 4px;">活動投票區間</h4>
+                                    <div style="font-size: 0.85rem; color: var(--text-light);">設定前台開放投票的時間範圍</div>
+                                </div>
+                                <div style="display: flex; gap: 5px; align-items: center;">
+                                    <input type="date" value="2026-08-01" class="search-bar" style="width: 130px; padding: 4px;"> 
+                                    <span>至</span>
+                                    <input type="date" value="2026-08-31" class="search-bar" style="width: 130px; padding: 4px;">
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                                <div>
+                                    <h4 style="color: var(--text-main); margin-bottom: 4px;">每日配票數量</h4>
+                                    <div style="font-size: 0.85rem; color: var(--text-light);">每位會員每天可投出的總票數</div>
+                                </div>
+                                <select class="search-bar" style="width: 100px; padding: 4px;">
+                                    <option>1 票</option>
+                                    <option selected>3 票</option>
+                                    <option>5 票</option>
+                                </select>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h4 style="color: var(--text-main); margin-bottom: 4px;">單一步道灌票限制</h4>
+                                    <div style="font-size: 0.85rem; color: var(--text-light);">限制每日不可將票數集中投給同一條步道</div>
+                                </div>
+                                <div style="width: 40px; height: 20px; background: var(--primary); border-radius: 10px; position: relative; cursor: pointer;">
+                                    <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel" style="min-width: 0;">
+                        <div class="chart-header">
+                            <div class="chart-title"><i class="fas fa-robot"></i> 機器人防堵機制</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                                <div>
+                                    <h4 style="color: var(--text-main); margin-bottom: 4px;">投票圖形驗證碼 (reCAPTCHA)</h4>
+                                    <div style="font-size: 0.85rem; color: var(--text-light);">投票前需進行「我不是機器人」驗證</div>
+                                </div>
+                                <div style="width: 40px; height: 20px; background: #ccc; border-radius: 10px; position: relative; cursor: pointer;">
+                                    <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                                <div>
+                                    <h4 style="color: var(--text-main); margin-bottom: 4px;">同 IP 異常註冊阻擋</h4>
+                                    <div style="font-size: 0.85rem; color: var(--text-light);">同一 IP 每日超過 5 次註冊即自動封鎖</div>
+                                </div>
+                                <div style="width: 40px; height: 20px; background: var(--primary); border-radius: 10px; position: relative; cursor: pointer;">
+                                    <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h4 style="color: var(--text-main); margin-bottom: 4px;">極速投票暴衝偵測</h4>
+                                    <div style="font-size: 0.85rem; color: var(--text-light);">同帳號於 3 秒內投完 3 票，判定為外掛攔截</div>
+                                </div>
+                                <div style="width: 40px; height: 20px; background: var(--primary); border-radius: 10px; position: relative; cursor: pointer;">
+                                    <div style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; right: 2px; top: 2px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <div class="chart-title" style="color: var(--danger);"><i class="fas fa-radar"></i> 異常投票雷達警報</div>
+                        <div class="controls-group">
+                            <select class="search-bar" style="width: auto; padding: 4px 8px;">
+                                <option>待處理警報</option>
+                                <option>已處理/已封鎖</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead style="background-color: rgba(231, 76, 60, 0.05);">
+                                <tr><th>偵測時間</th><th>觸發規則</th><th>可疑對象 (ID / IP)</th><th>異常描述</th><th>建議處置</th><th>操作</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2026-08-12 03:15:00</td>
+                                    <td><span class="badge banned">IP 集中</span></td>
+                                    <td>IP: 140.112.xxx.xxx</td>
+                                    <td>該 IP 於半夜時段湧入 120 個不同帳號進行投票。</td>
+                                    <td style="color: var(--danger); font-weight: bold;">封鎖 IP 並作廢票數</td>
+                                    <td><button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;">執行封鎖</button> <button class="btn-outline" style="padding: 4px 8px; font-size: 0.8rem;">忽略</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2026-08-11 22:45:12</td>
+                                    <td><span class="badge" style="background:#f4a261; color:white;">極速暴衝</span></td>
+                                    <td>#U98216 (陳*豪)</td>
+                                    <td>系統偵測該帳號於 1.2 秒內完成 3 次投票動作。</td>
+                                    <td style="color: #f4a261; font-weight: bold;">停權帳號</td>
+                                    <td><button class="btn-danger" style="padding: 4px 8px; font-size: 0.8rem;" disabled style="opacity: 0.5;">已處理</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             
