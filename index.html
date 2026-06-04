@@ -341,14 +341,16 @@
     </div>
 
     <script>
-        // 登入與登出邏輯
+        // 登入與登出邏輯 (加入 sessionStorage 保持登入狀態)
         function login() {
+            sessionStorage.setItem('isLoggedIn', 'true'); // 寫入登入狀態
+            
             document.getElementById('login-view').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('login-view').style.display = 'none';
                 document.getElementById('app-view').style.display = 'flex'; // 顯示主介面
                 
-                // 登入後初始化儀表板 (避免圖表破版)
+                // 登入後初始化儀表板
                 if (!dashboardInitialized) {
                     initDashboardCharts();
                     dashboardInitialized = true;
@@ -357,6 +359,8 @@
         }
 
         function logout() {
+            sessionStorage.removeItem('isLoggedIn'); // 清除登入狀態
+            
             document.getElementById('app-view').style.display = 'none';
             const loginView = document.getElementById('login-view');
             loginView.style.display = 'flex';
@@ -461,6 +465,22 @@
             new Chart(document.getElementById('ageGenderChart').getContext('2d'), { type: 'bar', data: { labels: ['18歲以下', '18-24歲', '25-34歲', '35-44歲', '45-54歲', '55歲以上'], datasets: [ { label: '男性', data: [500, 4500, 12000, 8000, 4000, 2000], backgroundColor: '#5f8f83' }, { label: '女性', data: [400, 5200, 14000, 7500, 3000, 808], backgroundColor: '#9ec7ad' } ] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } } });
             new Chart(document.getElementById('habitChart').getContext('2d'), { type: 'pie', data: { labels: ['每週1次以上', '每月1-3次', '每半年1次', '極少登山'], datasets: [{ data: [15, 40, 30, 15], backgroundColor: ['#5f8f83', '#83b86b', '#9ec7ad', '#e0e0e0'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
         }
+
+        // ==========================================
+        // 網頁載入時的初始檢查
+        // ==========================================
+        document.addEventListener("DOMContentLoaded", () => {
+            // 檢查瀏覽器暫存是否有登入紀錄
+            if (sessionStorage.getItem('isLoggedIn') === 'true') {
+                // 如果已登入，直接隱藏登入頁，顯示後台主介面
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('app-view').style.display = 'flex';
+                
+                initDashboardCharts();
+                dashboardInitialized = true;
+            }
+        });    
+        
     </script>
 </body>
 </html>
